@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+
+<html>
+  {% include 'header.html' without context %}
+
+  <title>Dosimetry Dashboard</title>
+  <body></body>
+    <div class="logo">
+      <img src="{{url_for('static', filename='images/GC-logo.png')}}">
+    </div>
+
+    <div class="icon-bar">
+      <a class="active" href="dosimetry_dashboard"><i class="fa"></i>Dosimetry Dashboard</a> 
+      <a class="inactive" href="MRLerrors?SN=243"><i class="fa"></i>MRL 243 error log</a> 
+      <a class="inactive" href="MRLerrors?SN=242"><i class="fa"></i>MRL 242 error log</a> 
+    </div>
+
+<div class="card">
+    <div class="card-body">
+      <form method="post">
+        <button class="btn btn-success mt-2" id="button__refresh">Refresh dashboard</button>
+      </form>
+      <div class="mt-4">
+        {% if request.method == 'POST'%} <!-- If we've requested data - otherwise this won't be drawn   -->
+          <!-- This button doesn't work yet -->
+          <!--<button id="reset-sort" class="btn btn-success mt-2">Reset sorting</button>-->
+
+          <table id="dashboard" class="compact hover nowwrap" style="width: 100%"> <!-- class="display"-->
+            <thead> <!-- Table header information -->
+              <tr class="table__header">
+                {% for header in dashboard[0].keys() %}
+                  <th class="table_cell">{{header}}</th>
+                {% endfor %}
+                <!-- extra button at the end -->
+                  <th class="table_cell"></th>
+              </tr>
+            </thead>
+            <tbody> <!-- Table body information -->
+              <!-- Loop through each row of the dashbarod data and formatting together -->
+              {% for row_index, (row_data, row_format) in enumerate(zip(dashboard, format)) %}
+                <tr class="table__row">
+                  <!-- For each fieldname (e.g., column) -->
+                  {% for col_index in range(0, len(fieldnames)) %}
+                    <!-- Custom class is based on the data in row_format -->
+                    <!-- Data is from row_data -->
+                    <!-- <td class={{row_format[fieldnames[col_index]]}}>{{row_data[fieldnames[col_index]]}}</td> -->
+                    <!-- An attempt at an editable version using input cells in each column -->
+                    <td class={{row_format[fieldnames[col_index]]}}>
+                      <!--<textarea rows="1" cols="10">-->
+                        {{row_data[fieldnames[col_index]]}}
+                      <!--</textarea>-->
+                      </div>
+                    </td>
+                    <!-- Row below is useful for bug fixing, it displays the css tags for each element, rather than the data -->
+                    <!--<td class=""}>{{row_format[fieldnames[col_index]]}}</td>-->
+                  {% endfor %}
+                  <td class=""}>
+                    <div>
+                      <a href="dosimetry_dashboard?Pat_IDA={{row_data['Pat_IDA']}}"><button type="button" class="btn btn-secondary btn-sm">Plan details</button></a>
+                    </div>
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>           
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</body>
+
+<!-- Config options for the data table -->
+
+<script type="text/javascript">
+    var table = $('#example').DataTable();
+
+    $('#dashboard').DataTable( {
+    order: [[1, "asc"], [2, "asc"], [3, "asc"]],
+    pageLength: 30,
+    scrollY: 980,
+    paging: false, 
+    scrollX: true,
+    columnDefs: [
+    { 
+      targets: [1, 2, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 17],
+      className: "dt-center",
+    },
+    {
+      targets: "_all",
+      className: "dt-nowrap",
+    },
+    {
+      targets: [0],
+      visible: false,
+    }
+    ],
+  } );
+
+  $('#dashboard tbody').on( 'click', 'tr', function () {
+      $(this).toggleClass('selected');
+  } );
+
+  $('#reset-sort').click( function () {
+    table.order( [[1, "asc"], [2, "asc"], [3, "asc"]] ).draw( true );
+  } );
+
+  $(document).ready(function() {
+    $('.js-example-basic-multiple').select2();
+  });
+
+  function getQueryVariable(variable) {
+    var query = window.location.search.substring(1);
+    var vars = query.split("&");
+    for (var i=0;i<vars.length;i++) {
+      var pair = vars[i].split("=");
+      if(pair[0] == variable){
+        return pair[1];
+      }
+    }
+    return(false);
+  }
+</script>
+
+<!--       
+
+      dom: 'Bfrtip',
+      buttons: [
+          'pdfHtml5',
+          'excelHtml5'
+      ]
+
+-->  
+</html>

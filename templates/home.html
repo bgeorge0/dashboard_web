@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+
+<html>
+  {% include 'header.html' without context %}
+
+  <body></body>
+    <div class="logo">
+      <img src="{{url_for('static', filename='images/GC-logo.png')}}">
+    </div>
+
+    <div class="icon-bar">
+      <a class="inactive" href="dosimetry_dashboard"><i class="fa"></i>Dosimetry Dashboard</a> 
+      <a class="inactive" href="MRLerrors?SN=243"><i class="fa"></i>MRL 243 error log</a> 
+      <a class="inactive" href="MRLerrors?SN=242"><i class="fa"></i>MRL 242 error log</a> 
+    </div>
+    
+    <!-- include external start here -->
+    <!-- Although can't get this working correctly -->
+    <!-- include external end here -->
+  </body>
+
+
+
+
+  <!-- Config options for the data table -->
+
+  <script type="text/javascript">
+      var table = $('#example').DataTable();
+
+      $('#dashboard').DataTable( {
+      order: [[1, "asc"], [2, "asc"], [3, "asc"]],
+      pageLength: 30,
+      scrollY: 980,
+      paging: false, 
+      scrollX: true,
+      columnDefs: [
+      { 
+        targets: [1, 2, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
+        className: "dt-center",
+      },
+      {
+        targets: "_all",
+        className: "dt-nowrap",
+      },
+      {
+        targets: [0],
+        visible: false,
+      }
+      ],
+    } );
+
+    $('#dashboard tbody').on( 'click', 'tr', function () {
+        $(this).toggleClass('selected');
+    } );
+
+    $('#reset-sort').click( function () {
+      table.order( [[1, "asc"], [2, "asc"], [3, "asc"]] ).draw( true );
+    } );
+
+    $(document).ready(function() {
+      $('.js-example-basic-multiple').select2();
+    });
+
+    function getQueryVariable(variable) {
+      var query = window.location.search.substring(1);
+      var vars = query.split("&");
+      for (var i=0;i<vars.length;i++) {
+        var pair = vars[i].split("=");
+        if(pair[0] == variable){
+          return pair[1];
+        }
+      }
+      return(false);
+    }
+  </script>
+
+  <!--       
+
+        dom: 'Bfrtip',
+        buttons: [
+            'pdfHtml5',
+            'excelHtml5'
+        ]
+
+  -->  
+</html>

@@ -1,0 +1,3 @@
+************DMAX FIle*************************
+***File was created by a script in Pinnacle***
+Max =  74.7 Gy (Clinical)	Clinical

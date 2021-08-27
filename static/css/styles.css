@@ -1,0 +1,231 @@
+html * {
+  color: #575757 !important;
+  font-family: "Segoe UI", "Segoe UI Web (West European)", "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif !important;
+  /* font-family: GenesisCareSans !important; */
+}
+
+table.dataTable {
+    font-size: 12px !important;
+}
+
+table textarea { min-width: 150px; }
+
+tr:hover {
+    background-color: #6c757d66 !important;
+}
+
+.selected {
+    background-color: #6c757d33 !important;
+}
+
+.logo {
+    padding: 10px;
+}
+
+.dt-button {    
+  background-color: #00be6d !important;
+  font-weight: bold !important;
+}
+
+.btn-success {
+  background-color: #00be6d !important;
+  font-weight: bold !important;
+}
+
+.btn-secondary {
+    background-color: #00be6d !important;
+}
+
+.status-complete {
+    /* font-weight: bold; */
+    /* color: #00be6d !important; */
+    /* background-color: #00be6d66 !important; */
+    background-color: #00FF0066;
+}
+
+.center {
+    text-align: center !important;
+}
+
+.status-overdue {
+    background-color: #FFFF0066 !important;;
+}
+
+.pCT-this-week {
+    background-color: #FFFF0066 !important;
+}
+
+.starts-today {
+    background-color: #FF000066 !important;;
+}
+
+.starts-tomorrow {
+    background-color: #FF000066 !important;;
+}
+
+input {    
+    height: 20px;
+    width: 300px;
+    border: 1px solid #000;
+    margin-top: 10px;
+}
+
+.zero-weeks-away {
+    background-color: #FF000066 !important;
+}
+
+.one-week-away {
+    background-color: #FFFF0066 !important;
+}
+
+.two-weeks-away	{
+    background-color: #00FF0066 !important;
+}
+
+.start-next-week {
+    background-color: #FFFF0066 !important;
+}
+
+.OX4r {
+    background-color: #C4BD9766 !important;
+}
+
+.CM1 {
+    background-color: #FFDAA366 !important;
+}
+
+.PO9 {
+    background-color: #FFFF9F66 !important;
+}
+
+.NG5 {
+    background-color: #9FFFCA66 !important;
+}
+
+.B74 {
+    background-color: #BEA5FD66 !important;
+}
+
+.ME19 {
+    background-color: #B8CCE466 !important;
+}
+
+.MK14r {
+    background-color: #D8E4BC66 !important;
+}
+
+.WD6 {
+    background-color: #CCC0DA66 !important;
+}
+
+.GU1 {
+    background-color: #FCD5B466 !important;
+}
+
+.SO16 {
+    background-color: #E6B8B766 !important;
+}
+
+.BS32 {
+    background-color: #FE12BA66 !important;
+}
+
+.SW5 {
+    background-color: #12345666 !important;
+}
+
+.SL4 {
+    background-color: #FF000066 !important;
+}
+
+.CB8 {
+    background-color: #65432166 !important;
+}
+
+.old-start {
+    background-color: #00CCFF66 !important;
+}
+
+.SABR {
+    background-color: #FBFB8F66 !important;
+}
+
+.CxTx {
+    background-color: #CCECFF66 !important;
+}
+
+.simple {
+    background-color: #D8E4BC66 !important;
+}
+
+.VMAT {
+    background-color: #36609266 !important;
+}
+
+.sIMRT {
+    background-color: #C5D9F166 !important;
+}
+
+.CxIMRT {
+    background-color: #8DB4E266 !important;
+}
+
+.MRL {
+    background-color: #558d0066 !important;
+}
+
+.IntTx {
+    background-color: #C4D79B66 !important;
+}
+
+select {
+    width:150px;   
+}
+
+.alert-critical {
+    background-color: #FF000066;
+}
+
+.alart-warning {
+    background-color: #FFFF0066;
+}
+
+.support-package {
+    background-color: #00be6d66;
+}
+
+body {margin:0;}
+
+.icon-bar {
+  width: 100%;
+  background-color: #575757;
+  overflow: auto;
+}
+
+.icon-bar a {
+  float: left;
+  width: 20% !important;
+  text-align: center;
+  padding: 12px;
+  transition: all 0.3s ease;
+  font-size: 20px;
+  text-decoration: none !important;
+  font-weight: bold !important;
+}
+
+
+.icon-bar a:hover {
+  background-color: #c8c8c8;
+}
+
+.active {
+  background-color: #00be6d;
+}
+
+.inactive {
+    color: white !important;
+}
+
+.content {
+    display: inline !important;
+}
