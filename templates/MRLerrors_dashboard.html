@@ -19,7 +19,6 @@
           <button class="btn btn-success mt-2" id="button__refresh">Refresh dashboard</button>
         </form>
         <div class="mt-4">
-          {% if request.method == 'POST'%} <!-- If we've requested data - otherwise this won't be drawn   -->
             <!-- This button doesn't work yet -->
             <!--<button id="reset-sort" class="btn btn-success mt-2">Reset sorting</button>-->
 
@@ -61,8 +60,7 @@
                   </tr>
                 {% endfor %}
               </tbody>
-            </table>           
-          {% endif %}
+            </table>      
         </div>
       </div>
     </div>

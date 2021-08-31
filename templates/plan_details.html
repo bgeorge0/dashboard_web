@@ -17,9 +17,6 @@
 
 <div class="card">
     <div class="card-body">
-      <form method="post">
-        <button class="btn btn-success mt-2" id="button__refresh">Refresh dashboard</button>
-      </form>
       <div class="mt-4">
           <!-- This button doesn't work yet -->
           <!--<button id="reset-sort" class="btn btn-success mt-2">Reset sorting</button>-->
@@ -53,15 +50,10 @@
                     <!-- Row below is useful for bug fixing, it displays the css tags for each element, rather than the data -->
                     <!--<td class=""}>{{row_format[fieldnames[col_index]]}}</td>-->
                   {% endfor %}
-                  <td class=""}>
-                    <div>
-                      <a href="plan_details?Pat_IDA={{row_data['Pat_IDA']}}"><button type="button" class="btn btn-secondary btn-sm">Plan details</button></a>
-                    </div>
-                  </td>
                 </tr>
               {% endfor %}
             </tbody>
-          </table>           
+          </table>    
       </div>
     </div>
   </div>
@@ -73,25 +65,10 @@
     var table = $('#example').DataTable();
 
     $('#dashboard').DataTable( {
-    order: [[1, "asc"], [2, "asc"], [3, "asc"]],
     pageLength: 30,
     scrollY: 980,
     paging: false, 
-    scrollX: true,
-    columnDefs: [
-    { 
-      targets: [1, 2, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 17],
-      className: "dt-center",
-    },
-    {
-      targets: "_all",
-      className: "dt-nowrap",
-    },
-    {
-      targets: [0],
-      visible: false,
-    }
-    ],
+    scrollX: true
   } );
 
   $('#dashboard tbody').on( 'click', 'tr', function () {
