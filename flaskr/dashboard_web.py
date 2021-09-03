@@ -6,8 +6,15 @@ import dosimetry_dashboard
 import MRLerrors_dashboard
 import time
 import plan_details
+import pyfiglet
 
 app = Flask(__name__)
+
+@app.errorhandler(Exception)
+def server_error(err):
+    # Create error page
+    ascii_banner = pyfiglet.figlet_format(str(err))
+    return render_template('404.html', ascii_banner=ascii_banner)
 
 @app.route('/')
 def root():
@@ -86,7 +93,6 @@ def handle_dosimetry_dashboard():
     return render_template('dosimetry_dashboard.html', dashboard=dashboard_data, format=dashboard_format, fieldnames=fieldnames, len=len, enumerate=enumerate, zip=zip, str=str)
 
 
-
 def format_csv_for_render(csv_data, csv_format):
     ''' Generic function for format csv of data and format ready for rendering by the templates '''
     dashboard_data = [] # Date
@@ -101,6 +107,8 @@ def format_csv_for_render(csv_data, csv_format):
         dashboard_format.append(dict(row))
     return dashboard_data, dashboard_format
 
+
 if __name__ == '__main__':
     ''' Module point '''
+    #from . import dashboard_web
     app.run(debug=True, host='0.0.0.0')

@@ -121,7 +121,9 @@ def get_MRLdashboard(this_SN):
 
     df_MRL = pd.DataFrame(data=d)
     df_MRL.drop_duplicates(subset=['Timestamp'], keep='first', inplace=True)
-            
+    df_MRL['Timestamp'] = pd.to_numeric(df_MRL['Timestamp'])
+    df_MRL.sort_values(by=['Timestamp'])
+
     df_format = pd.DataFrame().reindex_like(df_MRL)
     for col in df_format:
         df_format[col] = df_format[col].astype(str)
@@ -139,8 +141,7 @@ def get_MRLdashboard(this_SN):
     df_format.loc[ind, 'SN'] = 'support-package'
     df_format.loc[ind, 'Filename'] = 'support-package'
     df_format.loc[ind, 'System'] = 'support-package'
-    df_format.loc[ind, 'Date and time'] = 'support-package'
-        
+    df_format.loc[ind, 'Date and time'] = 'support-package'      
 
     return df_MRL.to_csv(), df_format.to_csv()
 

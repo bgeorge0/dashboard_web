@@ -1,6 +1,7 @@
 import os
 from flask import Flask
 
+app = Flask(__name__)
 
 def create_app(test_config=None):
     # create and configure the app
@@ -18,5 +19,5 @@ def create_app(test_config=None):
     #    return 'Hello, World!'
     
     from flaskr import dashboard_web
-
     return app
+
