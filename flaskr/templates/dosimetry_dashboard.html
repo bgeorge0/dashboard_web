@@ -4,16 +4,9 @@
   {% include 'header.html' without context %}
 
   <title>Dosimetry Dashboard</title>
-  <body></body>
-    <div class="logo">
-      <img src="{{url_for('static', filename='images/GC-logo.png')}}">
-    </div>
+  <body>
 
-    <div class="icon-bar">
-      <a class="active" href="dosimetry_dashboard"><i class="fa"></i>Dosimetry Dashboard</a> 
-      <a class="inactive" href="MRLerrors?SN=243"><i class="fa"></i>MRL 243 error log</a> 
-      <a class="inactive" href="MRLerrors?SN=242"><i class="fa"></i>MRL 242 error log</a> 
-    </div>
+    {% include 'icon-bar.html' without context %}
 
 <div class="card">
     <div class="card-body">
@@ -80,7 +73,7 @@
     scrollX: true,
     columnDefs: [
     { 
-      targets: [1, 2, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 17],
+      targets: [1, 2, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 18],
       className: "dt-center",
     },
     {

@@ -11,7 +11,6 @@ from zipfile import ZipFile
 #import cv2
 import os
 
-@lru_cache(maxsize=1)
 def get_MRLdashboard(this_SN):
     SN = []
     timestamps = []
@@ -23,9 +22,9 @@ def get_MRLdashboard(this_SN):
     filenames = []
 
     if this_SN == '242':
-        support_packages = glob(r"\\gcgbprmrl01\VRMRL242\SupportPackages\*.zip")
+        support_packages = glob(r"\\gcgbprmrl01\VRMRL242\SupportPackages\zip") + glob(r"\\gcgbprmrl01\VRMRL242\SupportPackages\**\*.zip")
     else:
-        support_packages = glob(r"\\gcgbprmrl01\VRMRL243\SupportPackages\*.zip")
+        support_packages = glob(r"\\gcgbprmrl01\VRMRL243\SupportPackages\*.zip") + glob(r"\\gcgbprmrl01\VRMRL243\SupportPackages\**\*.zip")
     #print(support_packages)
     #files = glob(r"C:\Users\ben.george\OneDrive - GenesisCare\MRL\Projects\Dashboard-web\SupportPackages\*.zip")
     #print(files)
@@ -71,7 +70,10 @@ def get_MRLdashboard(this_SN):
                                 timestamps.append(timestamp)
                                 timestrings.append(timestring)
                                 messages.append(message_str[12:-22])
-                                error_codes.append(message_str.split('(')[1].split(')')[0])
+                                try:
+                                    error_codes.append(message_str.split('(')[1].split(')')[0])
+                                except:
+                                    error_codes.append('no code') # catch bug where some errors have no (CODE)
                                 if "Critical" in line:
                                     alert_levels.append("Criticial")
                                 else:
@@ -83,6 +85,8 @@ def get_MRLdashboard(this_SN):
     else:
         log_error_files = glob(r"\\gcgbprmrl01\VRMRL243\Export\log_errors\*.csv")
     #print(log_error_files)
+    # Don't do this bit as it takes forever with all the TDS logs
+    """
     for log_error_file in log_error_files:
         with open(log_error_file, encoding='utf-16') as f:
             lines = f.readlines()
@@ -109,6 +113,7 @@ def get_MRLdashboard(this_SN):
                 filenames.append(parts[2])
                 system = os.path.split(log_error_file)[1][:-4]
                 systems.append(system)
+    """
 
     d = {'Timestamp': timestamps, \
         'SN': SN, \

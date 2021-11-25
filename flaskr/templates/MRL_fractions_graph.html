@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+
+<html>
+  {% include 'header.html' without context %}
+
+  <title>MRL fraction count</title>
+  <body>
+    
+    {% include 'icon-bar.html' without context %}
+
+    <div class="card">
+      <div class="card-body">
+        <form method="post">
+          <button class="btn btn-success mt-2" id="button__refresh">Refresh dashboard</button>
+        </form>
+        <div style="width: 400; float: left;">
+          <div class="chart-container">
+            <canvas id="TotalFractions" style="max-width: 400;"></canvas>
+            <p id="caption">MRL total fractions over time. X-axis, days since go-live.</p>
+          </div>
+        </div>
+        <div style="width: 400; float: right;">
+          <div class="chart-container">
+            <canvas id="TotalPatients" style="max-width: 400;"></canvas>
+            <p id="caption">MRL patients over time. X-axis, days since go-live.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <!-- Config options for the data table -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+  <script>
+    new Chart.Scatter(document.getElementById("TotalFractions"), {
+      type: 'scatter',
+      data: {
+        datasets: [{
+          label: 'MRL fraction count',
+          data: {{ scatter_fraction_data }},
+          showLine: false,
+          borderColor: "blue",
+          backgroundColor: "blue"
+        }],
+      }
+    });
+
+    new Chart.Scatter(document.getElementById("TotalPatients"), {
+      type: 'scatter',
+      data: {
+        datasets: [{
+          label: 'MRL patient count',
+          data: {{ scatter_patient_data }},
+          showLine: false,
+          borderColor: "blue",
+          backgroundColor: "blue"
+        }]
+      }
+    });
+ </script>
+  <!--       
+
+        dom: 'Bfrtip',
+        buttons: [
+            'pdfHtml5',
+            'excelHtml5'
+        ]
+
+  -->  
+</html>

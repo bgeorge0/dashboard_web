@@ -3,17 +3,10 @@
 <html>
   {% include 'header.html' without context %}
 
-  <title>Dosimetry Dashboard</title>
-  <body></body>
-    <div class="logo">
-      <img src="{{url_for('static', filename='images/GC-logo.png')}}">
-    </div>
+  <title>Plan Details</title>
+  <body>
 
-    <div class="icon-bar">
-      <a class="active" href="dosimetry_dashboard"><i class="fa"></i>Dosimetry Dashboard</a> 
-      <a class="inactive" href="MRLerrors?SN=243"><i class="fa"></i>MRL 243 error log</a> 
-      <a class="inactive" href="MRLerrors?SN=242"><i class="fa"></i>MRL 242 error log</a> 
-    </div>
+    {% include 'icon-bar.html' without context %}
 
 <div class="card">
     <div class="card-body">

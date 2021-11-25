@@ -4,9 +4,8 @@ from datetime import datetime
 import numpy as np # Just for busisness days function!
 import time
 
-''' Return tuple of dashboard data and formatting informaiotn as a csv '''
-def get_dashboard():
-    tic = time.perf_counter()
+
+def get_custom_query(this_sql_query):
     # Connection string for connection to server
     conn_str = (
         r'DRIVER={SQL Server};'
@@ -17,9 +16,33 @@ def get_dashboard():
     # Connect and get data
     #conn = pyodbc.connect(conn_str)
     with pyodbc.connect(conn_str) as conn:
+        df = pd.read_sql(this_sql_query, conn)
+    #df.sort_values(['Pat_IDA','Date','Time','Seq'])
+    return df
+
+''' Get raw data '''
+def get_raw_QCL_data():
+    # Connection string for connection to server
+    conn_str = (
+        r'DRIVER={SQL Server};'
+        r'SERVER=GCGBPRDW01;'
+        r'DATABASE=GC_DosimetryDash_v2;'
+        r'Trusted_Connection=yes;'
+    )
+    # Connect and get data
+    #conn = pyodbc.connect(conn_str)
+    #sql_query_all = '''SELECT * FROM  QCLData'''
+    with pyodbc.connect(conn_str) as conn:
         df = pd.read_sql(sql_query, conn)
-    print(f"{time.perf_counter() - tic:0.4f} seconds - SQL Query complete")
-    df.sort_values(['Pat_IDA','Date','Time','Seq'])    
+    #df.sort_values(['Pat_IDA','Date','Time','Seq'])
+    return df
+
+''' Get full dashboard, includnig all columns not for printing '''
+def get_dashbord_full(Activity_Filter=None):
+    # Get the raw QCLs dashboard
+    df = get_raw_QCL_data()
+
+    # Start processing
     df['StartDate'] = df['Date']
 
     # Assign unique key to each row based on the patient ID, the activty (Tx type) and start date
@@ -82,7 +105,6 @@ def get_dashboard():
     df_dashboard.columns = df_dashboard.columns.map(str)
     df_dashboard.columns = df_dashboard.columns.map(lambda s: s.replace(' ',''))
 
-    print(f"{time.perf_counter() - tic:0.4f} seconds - basic dashboard creation complete")
 
     # Planning and PSQA stats
     #df_dashboard['PDS'] = '' #df_dashboard['Pat_IDA'].map(lambda x: MRL_plan_data.get_plan_statistics(x)['prescription_dose_spillage'])
@@ -117,6 +139,23 @@ def get_dashboard():
     df_dashboard['2ndCheck'] = df_dashboard['2ndCheck'] + ' ' + df_dashboard['2ndCheck_due'].map(lambda x: format_date_short(x))    
     df_dashboard['PlanApproval'] = df_dashboard['PlanApproval'] + ' ' + df_dashboard['PlanApproval_due'].map(lambda x: format_date_short(x))
 
+    # Select base on activity filter
+    if Activity_Filter is None:
+        return df_dashboard
+    
+    df_dashboard = df_dashboard[df_dashboard['Activity'].str.contains(Activity_Filter)]
+    #sIMRT_Br
+    return df_dashboard
+
+
+''' Return tuple of dashboard data and formatting informaiotn as a csv '''
+def get_dashboard(Activity_Filter=None):
+    tic = time.perf_counter()
+
+    # Get the full dashboard
+    df_dashboard = get_dashbord_full(Activity_Filter)
+    print(f"{time.perf_counter() - tic:0.4f} seconds - basic dashboard creation complete")
+
     # Create some formatting
     # Each cell is a css class for which the appropiate style will be applied
     # Initial cell format is blank
@@ -141,6 +180,8 @@ def get_dashboard():
     df_format.loc[df_dashboard.index[df_dashboard['PlanApproval_complete'] == 'OK'].tolist(), 'PlanApproval'] = 'status-complete'
     
     # Flag start date this week and next week
+    df_format.loc[df_dashboard.index[df_dashboard['Date_long'].map(lambda x: isfourweeks(x))].tolist(), 'StartDate'] = 'four-weeks-away'
+    df_format.loc[df_dashboard.index[df_dashboard['Date_long'].map(lambda x: isthreeweeks(x))].tolist(), 'StartDate'] = 'three-weeks-away'
     df_format.loc[df_dashboard.index[df_dashboard['Date_long'].map(lambda x: istwoweeks(x))].tolist(), 'StartDate'] = 'two-weeks-away'
     df_format.loc[df_dashboard.index[df_dashboard['Date_long'].map(lambda x: isnextweek(x))].tolist(), 'StartDate'] = 'one-week-away'
     df_format.loc[df_dashboard.index[df_dashboard['Date_long'].map(lambda x: isthisweek(x))].tolist(), 'StartDate'] = 'zero-weeks-away'
@@ -214,6 +255,15 @@ def isnextweek(date_object):
 ''' Returns true if the date is in two weeks '''
 def istwoweeks(date_object):
     return (date_object.to_pydatetime().isocalendar()[1] - datetime.now().isocalendar()[1]) == 2
+
+''' Returns true if the date is in three weeks away '''
+def isthreeweeks(date_object):
+    return (date_object.to_pydatetime().isocalendar()[1] - datetime.now().isocalendar()[1]) == 3
+
+''' Returns true if the date is in three weeks away '''
+def isfourweeks(date_object):
+    return (date_object.to_pydatetime().isocalendar()[1] - datetime.now().isocalendar()[1]) == 4
+
 
 ''' SQL query to get data from Mosaiq '''
 sql_query = """SELECT

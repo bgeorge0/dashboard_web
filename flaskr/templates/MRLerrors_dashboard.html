@@ -3,16 +3,11 @@
 <html>
   {% include 'header.html' without context %}
 
-  <title>MRI Errors</title>
-  <body></body>
-    <div class="logo">
-      <img src="{{url_for('static', filename='images/GC-logo.png')}}">
-    </div>
-    <div class="icon-bar">
-      <a class="inactive" href="/dosimetry_dashboard"><i class="fa"></i>Dosimetry Dashboard</a> 
-      <a id="tab243" class="inactive" href="MRLerrors?SN=243"><i class="fa"></i>MRL 243 error log</a> 
-      <a id="tab242" class="inactive" href="MRLerrors?SN=242"><i class="fa"></i>MRL 242 error log</a> 
-    </div>
+  <title>MRL Errors</title>
+  <body>
+
+    {% include 'icon-bar.html' without context %}
+
     <div class="card">
       <div class="card-body">
         <form method="post">
@@ -68,7 +63,7 @@
   <!-- Config options for the data table -->
 
   <script type="text/javascript">
-            $('#MRL1').DataTable( {
+            $('#MRL').DataTable( {
               order: [[1, "desc"]],
               scrollY: 1024,
               paging: false, 
