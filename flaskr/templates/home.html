@@ -8,11 +8,7 @@
       <img src="{{url_for('static', filename='images/GC-logo.png')}}">
     </div>
 
-    <div class="icon-bar">
-      <a class="inactive" href="dosimetry_dashboard"><i class="fa"></i>Dosimetry Dashboard</a> 
-      <a class="inactive" href="MRLerrors?SN=243"><i class="fa"></i>MRL 243 error log</a> 
-      <a class="inactive" href="MRLerrors?SN=242"><i class="fa"></i>MRL 242 error log</a> 
-    </div>
+    {% include 'icon-bar.html' without context %}
     
     <!-- include external start here -->
     <!-- Although can't get this working correctly -->
